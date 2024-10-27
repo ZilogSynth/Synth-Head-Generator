@@ -9,7 +9,7 @@ include <BOSL2/rounding.scad>
 
 // General
 smooth_edges = false; // Setting this to true will smooth edges and is INCREDIBLY slow (hours!).
-smooth_edges_sphere_thickness = 30; // The amount of smoothing to apply. The more smoothing, the exponentially greater resources needed
+smooth_edges_sphere_thickness = 12; // The amount of smoothing to apply. The more smoothing, the exponentially greater resources needed
 smoothness = 380; // Setting this to 400 makes the model completely smooth but is heavy on resources. Set to lower until you have completed your changes.
 front_width = 115;
 front_height = 100;
@@ -23,12 +23,18 @@ bottom_cut_adjustment = 16; // Change this if the bottom of the head is not cut 
 front_rounding = 50;
 rear_rounding = 120;
 
+// Bottom strike plate/shelf in front_visor
+strike_plate_length = 40;
+strike_plate_thickness = 1;
+strike_plate_front_width = 115;
+strike_plate_rear_width = 115;
+strike_plate_z_location = -22;
 
 // Visor
 visor_start = 0; // Distance from the "end" of the snoot for visor to start
 first_visor_depth = 20; // How deep the visor should "cut" into the base
 first_visor_length = 90; // Overall length of visor
-breakpoint = 40; // This is how far away you want the breakpoint in the visor
+breakpoint = 20; // This is how far away you want the breakpoint in the visor
 second_visor_depth = 10;
 second_visor_length = 230;
 
@@ -63,7 +69,6 @@ nostril_upper_x = 30;
 nostril_outer_y = 37;
 nostril_outer_x = 18;
 
-
 // Bite
 front_bite_height = -70;
 front_bite_scale = 1.6;
@@ -87,7 +92,7 @@ jaw_holder_height = -40;
 jaw_holder_location = 300;
 jaw_holder_circ = 10;
 jaw_holder_wall_thickness = 2;
-jaw_holder_wall_height = 12;
+jaw_holder_wall_height = 14;
 
 top_strap_holder_width = 34;
 top_strap_holder_location = 300;
@@ -217,6 +222,11 @@ difference() {
         // Jaw holder wall
         translate([jaw_holder_location, 0, jaw_holder_height]) {
             cyl(l = jaw_holder_length, orient=FRONT, r=jaw_holder_circ+jaw_holder_wall_thickness, $fn = smoothness);
+        }
+        
+        // Bottom shelf/strike plate
+        translate([0, 0, strike_plate_z_location]) {
+            prismoid(size1=[strike_plate_thickness, strike_plate_front_width], size2=[strike_plate_thickness, strike_plate_rear_width], height=strike_plate_length, orient=RIGHT);
         }
     }
     union () {
