@@ -15,3 +15,4 @@ The Synth species a was created by Vader-San. Visit https://synthspecies.com/ fo
 6. Click "Render" and wait.
 7. Click "Export to STL and wait.
 
+## Check the in-progress Wiki for more details on how to build
