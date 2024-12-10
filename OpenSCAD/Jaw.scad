@@ -11,7 +11,7 @@ include <Head.scad>;
 
 // Jaw
 render_head = false; // Set to render the head too so that you can get an idea of fit, set to false to render just the jaw for use in production
-smoothness = 100;
+smoothness = 380;
 
 
 jaw_front_width_amount = 10; // This is the amount of difference in the head and the jaw
