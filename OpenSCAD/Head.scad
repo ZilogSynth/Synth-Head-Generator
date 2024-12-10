@@ -8,17 +8,17 @@ include <BOSL2/std.scad>;
 include <BOSL2/rounding.scad>
 
 // General
-render_head = false; // Set this to false for other files to operate correctly
+render_head = true; // Set this to false for other files to operate correctly
 smooth_edges = false; // Setting this to true will smooth edges and is INCREDIBLY slow (hours!).
 smooth_edges_sphere_thickness = 12; // The amount of smoothing to apply. The more smoothing, the exponentially greater resources needed
-smoothness = 100; // Setting this to 400 makes the model completely smooth but is heavy on resources. Set to lower until you have completed your changes.
+smoothness = 380; // Setting this to 400 makes the model completely smooth but is heavy on resources. Set to lower until you have completed your changes.
 front_width = 115;
-front_height = 100;
+front_height = 80;
 rear_width = 255;
 rear_height = 220;
 overall_length = 500;
 wall_thickness = 5;
-bottom_cut_adjustment = 16; // Change this if the bottom of the head is not cut correctly
+bottom_cut_adjustment = 12; // Change this if the bottom of the head is not cut correctly
 
 // You will get an error: "Requested roundings and/or chamfers exceed the rect height." if these are too high.
 front_rounding = 50;
@@ -29,15 +29,16 @@ strike_plate_length = 40;
 strike_plate_thickness = 1;
 strike_plate_front_width = 115;
 strike_plate_rear_width = 115;
-strike_plate_z_location = -22;
+strike_plate_z_location = -20;
+strike_plate_x_location = 5;
 
 // Visor
 visor_start = 0; // Distance from the "end" of the snoot for visor to start
-first_visor_depth = 20; // How deep the visor should "cut" into the base
-first_visor_length = 90; // Overall length of visor
-breakpoint = 20; // This is how far away you want the breakpoint in the visor
+first_visor_depth = 15; // How deep the visor should "cut" into the base
+first_visor_length = 80; // Overall length of visor
+breakpoint = 25; // This is how far away you want the breakpoint in the visor
 second_visor_depth = 10;
-second_visor_length = 230;
+second_visor_length = 240;
 
 // Horns
 top_horn_length = 180;
@@ -49,43 +50,43 @@ mid_horn_start = -20;
 mid_horn_thickness = 70;
 mid_horn_cut_rotation = -2;
 bottom_horn_top_length = 170;
-bottom_horn_bottom_length = 160;
+bottom_horn_bottom_length = 170;
 bottom_horn_cut_height = 130;
 bottom_horn_cut_rotation = 0;
 
 // Snoot;
 snoot_width = 70;
-snoot_height = 110;
+snoot_height = 100;
 snoot_shift = -20;
 snoot_depth = 70;
-snoot_scale = 0.76;
+snoot_scale = 0.65;
 snoot_front_rounding = 45;
 
 // Nostrils
 // These values are mirrored on both sizes
 nostril_inner_y = 24;
-nostril_inner_x = 20;
-nostril_upper_y = 30;
-nostril_upper_x = 30;
-nostril_outer_y = 37;
-nostril_outer_x = 18;
+nostril_inner_x = 12;
+nostril_upper_y = 25;
+nostril_upper_x = 20;
+nostril_outer_y = 32;
+nostril_outer_x = 14;
 
 // Bite
-front_bite_height = -70;
-front_bite_scale = 1.6;
-front_bite_radius = 40;
-first_bite_height = -96;
+front_bite_height = -136;
+front_bite_scale = 1;
+front_bite_radius = 112;
+first_bite_height = -88;
 first_bite_location = 20;
-first_bite_scale = 1.5;
+first_bite_scale = 1;
 first_bite_radius = 60;
-second_bite_height = -130;
-second_bite_location = 150;
-second_bite_scale = 1.6;
-second_bite_radius = 90;
-third_bite_height = -150;
-third_bite_location = 340;
-third_bite_scale = 1.7;
-third_bite_radius = 90;
+second_bite_height = -146;
+second_bite_location = 127;
+second_bite_scale = 1;
+second_bite_radius = 123;
+third_bite_height = -260;
+third_bite_location = 264;
+third_bite_scale = 1;
+third_bite_radius = 200;
 
 // Hardware
 jaw_holder_length = 194; // Change this value so that the jaw holders are flush with the head, without poking a hole in the model
@@ -96,10 +97,10 @@ jaw_holder_wall_thickness = 2;
 jaw_holder_wall_height = 20;
 
 top_strap_holder_width = 34;
-top_strap_holder_location = 275;
+top_strap_holder_location = 265;
 top_strap_holder_height = -2;
 top_strap_holder_scale = 0.4;
-top_strap_holder_cut_size = 167; // Change this value so that the cut for the top strap is within the walls but not poking through the entire walls of the model
+top_strap_holder_cut_size = 153; // Change this value so that the cut for the top strap is within the walls but not poking through the entire walls of the model
 
 side_strap_holders_width = 34;
 side_strap_holders_location = 300;
@@ -228,7 +229,7 @@ module finished_head() {
             }
             
             // Bottom shelf/strike plate
-            translate([0, 0, strike_plate_z_location]) {
+            translate([strike_plate_x_location, 0, strike_plate_z_location]) {
                 prismoid(size1=[strike_plate_thickness, strike_plate_front_width], size2=[strike_plate_thickness, strike_plate_rear_width], height=strike_plate_length, orient=RIGHT);
             }
         }
@@ -283,43 +284,54 @@ module finished_head() {
             // Auxillary lighting
             // There is no way to effectively add this programatically, so it is included as a reference for you to adjust on your own, should you desire to add it this way
             // Light cut outs
-            translate([335, 72, 60]) {
+            translate([335, 72, 58]) {
                 xrot(-47) yrot(-7) zrot(-1)
                 prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
             }
-            translate([355, 74, 62]) {
+            translate([355, 74, 61]) {
                 xrot(-47) yrot(-7) zrot(-1)
                 prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
             }
-            translate([375, 76, 64]) {
+            translate([375, 76, 63]) {
                 xrot(-47) yrot(-7) zrot(-1)
                 prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
             }
-            translate([335, -72, 60]) {
+            translate([335, -71, 60]) {
                 xrot(47) yrot(-7) zrot(1)
                 prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
             }
-            translate([355, -74, 62]) {
+            translate([355, -73, 62]) {
                 xrot(47) yrot(-7) zrot(1)
                 prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
             }
-            translate([375, -76, 64]) {
+            translate([375, -75, 64]) {
                 xrot(47) yrot(-7) zrot(1)
                 prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
             }
             // Cable management
-            translate([260, -69, 49]) {
-                xrot(20) yrot(-9) xrot(24)
+            translate([262, -67, 48]) {
+                xrot(28) yrot(-9) xrot(14)
                 cube([3, 5, 120], anchor=TOP, orient=LEFT);
             }
-            translate([260, 69, 49]) {
-                xrot(-20) yrot(-9) xrot(-24)
+            translate([262, -66, 47]) {
+                xrot(28) yrot(-9) xrot(14)
+                cube([3, 5, 20], anchor=TOP, orient=LEFT);
+            }
+            translate([262, 67, 48]) {
+                xrot(-28) yrot(-9) xrot(-14)
                 cube([3, 5, 120], anchor=TOP, orient=LEFT);
+            }
+            translate([262, 66, 47]) {
+                xrot(-28) yrot(-9) xrot(-14)
+                cube([3, 5, 20], anchor=TOP, orient=LEFT);
             }
         }
     }
 }
 
+
+
+            
 if (render_head == true) {
     finished_head();
 }
