@@ -13,20 +13,21 @@ include <Head.scad>;
 render_head = false; // Set to render the head too so that you can get an idea of fit, set to false to render just the jaw for use in production
 smoothness = 380;
 
-
 jaw_front_width_amount = 10; // This is the amount of difference in the head and the jaw
 jaw_rear_width_amount = 10; // See above
 jaw_front_height = 80;
 jaw_rear_height = 300;
 // You will get an error: "Requested roundings and/or chamfers exceed the rect height." if these are too high.
-jaw_front_rounding = 30;
-jaw_rear_rounding = 40;
+jaw_front_rounding = 44;
+jaw_rear_rounding = 50;
 rear_cut = 320; // This is to remove excess amount of jaw from the rear, set this so it is within the helmet
-bottom_cut_front_width = 120; // This is the bottom cut for the head
-bottom_cut_location = 310;
-bottom_cut_rear_width = 187;
-bottom_cut_length = 200;
 top_cut_adjustment = 110; // This is to remove excess amount of jaw from the top, set this to a reasonable height
+
+head_entrance_radius = 76;
+head_entrance_front_width = 155;
+head_entrance_rear_width = 200;
+head_entrance_location = 240;
+head_entrance_mid_cut_compensation = 4.4; // For some reason the front cut isn't perfectly aligned with the front radius cut of the head entrance. Use this value to compensate by moving it forward/backwards.
 
 jaw_z_shift = -20; // This moves the entire jaw assembly down
 jaw_x_shift = 5; // This moves the entire jaw assembly back
@@ -47,12 +48,13 @@ chin_side_cut_location = 120;
 
 jaw_holder_length_extra = 5; // This is the amount of "extra material" to add to the jaw holder length to compensate for any bending
 jaw_holder_width_extra = -1; // This is the amount of width taken away to ensure the jaw_folder fits into the hole
-side_strap_holders_width = 34;
+side_strap_holders_width = 36;
 side_strap_holders_location = 250;
-side_strap_holders_height = -50;
-side_strap_holders_cut_size = 166; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
-side_strap_holders_scale = 0.4; // this enables the strap mounts to be thinner
-side_strap_rotation = 6;
+side_strap_holders_height = -44;
+side_strap_holders_front_cut = 80; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
+side_strap_holders_rear_cut = 85; // Change this value to compensate for the fact the gap is larger at the back of the jaw
+side_strap_rotation = 95;
+side_strap_cut_scale = 0.4; // This enables the strap cut outs to be thinner
 
 if (render_head == true) {
     unsmoothed();
@@ -69,8 +71,8 @@ color("red") {
                 translate([rear_cut, 0, 0]) {
                     prismoid(size1=[jaw_rear_height, rear_width], size2=[jaw_rear_height, rear_width], h=overall_length, orient=RIGHT);
                 }
-                // top cut
                 
+                // top cut
                 translate([0, 0, top_cut_adjustment]) {
                     prismoid(size1=[rear_height, rear_width], size2=[rear_height, rear_width], h=overall_length, orient=RIGHT);
                 }
@@ -86,20 +88,17 @@ color("red") {
                 
                 // Side strap cuts
                 translate([side_strap_holders_location, 0, side_strap_holders_height]) {
-                    scale([side_strap_holders_scale, 1, 1]) {
-                        rotate([0, side_strap_rotation, 0]) {
-                            tube(h=side_strap_holders_width, or=side_strap_holders_cut_size/2, wall=2, $fn = smoothness);
+                    rotate([0, side_strap_rotation, 0]) {
+                        scale([side_strap_cut_scale, 1, 1]) { 
+                            tube(h=side_strap_holders_width, or1=side_strap_holders_front_cut, or2=side_strap_holders_rear_cut, wall=2, $fn = smoothness);
                         }
                     }
                 }
                 
                 // Bottom cut / head entrance
-                translate([bottom_cut_location+30, 0, 0]) {
-                    diff() prismoid(size1 = [rear_width, bottom_cut_rear_width], size2=[rear_width, bottom_cut_front_width], orient=LEFT, h = bottom_cut_length) {
-                        edge_profile([TOP+FRONT, TOP+BACK], excess=40, convexity=80) {
-                            mask2d_roundover(h=bottom_cut_front_width/2,mask_angle=$edge_angle);
-                        }
-                    }
+                translate([head_entrance_location, 0, 0]) {
+                    cyl(l = overall_length, r = head_entrance_radius, $fn = smoothness);
+                    left(head_entrance_mid_cut_compensation) prismoid(size1=[overall_length, (head_entrance_radius*2)], size2=[overall_length, head_entrance_rear_width], h=(overall_length-head_entrance_location-head_entrance_radius), orient=RIGHT);
                 }
             }
         }
@@ -114,6 +113,7 @@ color("red") {
                     cyl(l=jaw_height, d=front_width, rounding1=snoot_front_rounding, rounding2=snoot_front_rounding, $fn = smoothness);
                 }
             }
+            
             // chin cut
             union () {
                 translate([wall_thickness, 0, wall_thickness]) {
