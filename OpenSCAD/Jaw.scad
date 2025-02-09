@@ -10,43 +10,49 @@ include <BOSL2/rounding.scad>;
 include <Head.scad>;
 
 // Jaw
-render_head = false; // Set to render the head too so that you can get an idea of fit, set to false to render just the jaw for use in production
+render_head = false; ; // Set to render the head too so that you can get an idea of fit, set to false to render just the jaw for use in production
 smoothness = 380;
 
-jaw_front_width_amount = 10; // This is the amount of difference in the head and the jaw
+jaw_front_width_amount = 5; // This is the amount of difference in the head and the jaw
 jaw_rear_width_amount = 10; // See above
 jaw_front_height = 80;
-jaw_rear_height = 300;
+jaw_rear_height = 320;
 // You will get an error: "Requested roundings and/or chamfers exceed the rect height." if these are too high.
 jaw_front_rounding = 44;
 jaw_rear_rounding = 50;
-rear_cut = 320; // This is to remove excess amount of jaw from the rear, set this so it is within the helmet
+rear_cut = 270; // This is to remove excess amount of jaw from the rear, set this so it is within the helmet
+rear_cut_y_rotation = -15;
 top_cut_adjustment = 110; // This is to remove excess amount of jaw from the top, set this to a reasonable height
 
 head_entrance_radius = 76;
 head_entrance_front_width = 155;
 head_entrance_rear_width = 200;
-head_entrance_location = 240;
+head_entrance_location = 220;
 head_entrance_mid_cut_compensation = 4.4; // For some reason the front cut isn't perfectly aligned with the front radius cut of the head entrance. Use this value to compensate by moving it forward/backwards.
 
 jaw_z_shift = -20; // This moves the entire jaw assembly down
 jaw_x_shift = 5; // This moves the entire jaw assembly back
 jaw_height = 90;
-jaw_width = 70;
-jaw_rounding = 10;
+jaw_width = 40;
+jaw_rounding = 50;
 
-chin_depth = 60;
-chin_scale = 0.450;
-chin_front_bite = 45; // The amount of width to give the jaw "bite"
-chin_front_scale = 0.14; // Squish the cut so it looks more realistic
-chin_front_cut_height = 5;
+chin_width = 106;
+chin_height = 100;
+chin_shift = 80;
+chin_depth = 300;
+chin_scale = 0.18;
+chin_front_rounding = 34;
+
+chin_front_bite = 50; // The amount of width to give the jaw "bite"
+chin_front_scale = 0.18; // Squish the cut so it looks more realistic
+    chin_front_cut_height = 9;
 chin_side_bite = 200;
 chin_side_bite_scale = 0.4;
 chin_side_cut_rotation = -12;
 chin_side_cut_height = 86;
 chin_side_cut_location = 120;
 
-jaw_holder_length_extra = 5; // This is the amount of "extra material" to add to the jaw holder length to compensate for any bending
+jaw_holder_length_extra = 15; // This is the amount of "extra material" to add to the jaw holder length to compensate for any bending
 jaw_holder_width_extra = -1; // This is the amount of width taken away to ensure the jaw_folder fits into the hole
 side_strap_holders_width = 36;
 side_strap_holders_location = 250;
@@ -69,7 +75,7 @@ color("red") {
             union() {
                 // rear cut
                 translate([rear_cut, 0, 0]) {
-                    prismoid(size1=[jaw_rear_height, rear_width], size2=[jaw_rear_height, rear_width], h=overall_length, orient=RIGHT);
+                    yrot(rear_cut_y_rotation) prismoid(size1=[jaw_rear_height+100, rear_width], size2=[jaw_rear_height+100, rear_width], h=overall_length, orient=RIGHT);
                 }
                 
                 // top cut
@@ -106,13 +112,22 @@ color("red") {
         // chin
         difference() {
             intersection() {
-                prismoid(size1 = [jaw_front_height, front_width-wall_thickness-jaw_front_width_amount], size2 = [jaw_height, jaw_width], shift=[-snoot_shift, 0], h = chin_depth, rounding1 = [0, jaw_front_rounding, jaw_front_rounding, 0], rounding2 = [0, jaw_width/2, jaw_width/2, 0], orient = LEFT, $fn = smoothness);
+                prismoid(size1 = [front_height, front_width-wall_thickness-jaw_front_width_amount], size2 = [chin_height, chin_width], shift=[chin_shift, 0], h = chin_depth, rounding1 = [0, jaw_front_rounding, jaw_front_rounding, 0], rounding2 = [0, chin_width/2, chin_width/2, 0], orient = LEFT, $fn = smoothness);
                 
-
-                scale([chin_scale, 1, 1]) {
-                    cyl(l=jaw_height, d=front_width, rounding1=snoot_front_rounding, rounding2=snoot_front_rounding, $fn = smoothness);
+                scale([snoot_scale, 1, 1]) {
+                    cyl(l=front_height, d=chin_width, rounding1=chin_front_rounding, rounding2=0, $fn = smoothness);
                 }
             }
+            translate([wall_thickness, 0, wall_thickness]) {
+                intersection() {
+                    prismoid(size1 = [front_height, front_width-wall_thickness-jaw_front_width_amount-wall_thickness], size2 = [chin_height, chin_width-wall_thickness], shift=[chin_shift, 0], h = chin_depth, rounding1 = [0, jaw_front_rounding-wall_thickness, jaw_front_rounding-wall_thickness, 0], rounding2 = [0, (chin_width/2)-wall_thickness, (chin_width/2)-wall_thickness, 0], orient = LEFT, $fn = smoothness);
+            
+                    scale([snoot_scale, 1, 1]) {
+                        cyl(l=front_height, d=chin_width, rounding1=chin_front_rounding, rounding2=0, $fn = smoothness);
+                    }
+                }
+            }
+        
             
             // chin cut
             union () {
