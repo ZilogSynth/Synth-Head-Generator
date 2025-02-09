@@ -14,10 +14,10 @@ smooth_edges_sphere_thickness = 12; // The amount of smoothing to apply. The mor
 smoothness = 380; // Setting this to 400 makes the model completely smooth but is heavy on resources. Set to lower until you have completed your changes.
 front_width = 115;
 front_height = 80;
-rear_width = 255;
+rear_width = 265;
 rear_height = 220;
-overall_length = 500;
-wall_thickness = 5;
+overall_length = 470;
+wall_thickness = 4;
 bottom_cut_adjustment = 12; // Change this if the bottom of the head is not cut correctly
 
 // You will get an error: "Requested roundings and/or chamfers exceed the rect height." if these are too high.
@@ -38,7 +38,7 @@ first_visor_depth = 15; // How deep the visor should "cut" into the base
 first_visor_length = 80; // Overall length of visor
 breakpoint = 25; // This is how far away you want the breakpoint in the visor
 second_visor_depth = 10;
-second_visor_length = 240;
+second_visor_length = 200;
 
 // Horns
 top_horn_length = 180;
@@ -49,18 +49,18 @@ mid_horn_bottom_length = 170;
 mid_horn_start = -20;
 mid_horn_thickness = 70;
 mid_horn_cut_rotation = -2;
-bottom_horn_top_length = 170;
-bottom_horn_bottom_length = 170;
-bottom_horn_cut_height = 130;
+bottom_horn_top_length = 180;
+bottom_horn_bottom_length = 260;
+bottom_horn_cut_height = 120;
 bottom_horn_cut_rotation = 0;
 
 // Snoot;
 snoot_width = 70;
 snoot_height = 100;
-snoot_shift = -20;
-snoot_depth = 70;
-snoot_scale = 0.65;
-snoot_front_rounding = 45;
+snoot_shift = -30;
+snoot_depth = 300;
+snoot_scale = 0.78;
+snoot_front_rounding = 57;
 
 // Nostrils
 // These values are mirrored on both sizes
@@ -83,15 +83,15 @@ second_bite_height = -146;
 second_bite_location = 127;
 second_bite_scale = 1;
 second_bite_radius = 123;
-third_bite_height = -260;
+third_bite_height = -256;
 third_bite_location = 264;
-third_bite_scale = 1;
+third_bite_scale = 0.9;
 third_bite_radius = 200;
 
 // Hardware
-jaw_holder_length = 194; // Change this value so that the jaw holders are flush with the head, without poking a hole in the model
+jaw_holder_length = 186; // Change this value so that the jaw holders are flush with the head, without poking a hole in the model
 jaw_holder_height = -40;
-jaw_holder_location = 300;
+jaw_holder_location = 235;
 jaw_holder_circ = 10;
 jaw_holder_wall_thickness = 2;
 jaw_holder_wall_height = 20;
@@ -100,14 +100,50 @@ top_strap_holder_width = 34;
 top_strap_holder_location = 265;
 top_strap_holder_height = -2;
 top_strap_holder_scale = 0.4;
-top_strap_holder_cut_size = 153; // Change this value so that the cut for the top strap is within the walls but not poking through the entire walls of the model
+top_strap_holder_cut_size = 160; // Change this value so that the cut for the top strap is within the walls but not poking through the entire walls of the model
 
-side_strap_holders_width = 34;
-side_strap_holders_location = 300;
-side_strap_holders_height = -10;
-side_strap_holders_cut_size = 193; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
+side_strap_holders_width = 32;
+side_strap_holders_location = 250;
+side_strap_holders_height = -14;
+side_strap_holders_cut_size = 192; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
 side_strap_holders_scale = 0.4; // this enables the strap mounts to be thinner
 side_strap_rotation = 4;
+
+// Auxillary lighting - these are mirrored to the other side
+// Horn lights
+horn_light_depth = 14;
+horn_light_length = 10;
+horn_light_width = 5;
+
+lower_horn_light_x_position = 300;
+lower_horn_light_y_position = 72;
+lower_horn_light_z_position = 58;
+
+middle_horn_light_x_position = lower_horn_light_x_position+20;
+middle_horn_light_y_position = lower_horn_light_y_position+2;
+middle_horn_light_z_position = lower_horn_light_z_position+3;
+
+upper_horn_light_x_position = middle_horn_light_x_position+20;
+upper_horn_light_y_position = middle_horn_light_y_position+2;
+upper_horn_light_z_position = middle_horn_light_z_position+3;
+
+horn_light_x_rotation = 47;
+horn_light_y_rotation = 7;
+horn_light_z_rotation = 1;
+
+// Cable management
+cable_management_trunking_x_position = 222;
+cable_management_trunking_y_position = 62;
+cable_management_trunking_z_position = 49;
+
+cable_management_trunking_x_rotation = 36;
+cable_management_trunking_y_rotation = 10;
+cable_management_trunking_z_rotation = -1;
+
+cable_management_trunking_depth = 2;
+cable_management_trunking_width = 5;
+cable_management_trunking_length = 130;
+
 
 // Main build
 module mainBody() {
@@ -216,7 +252,7 @@ module finished_head() {
                 unsmoothed();
             } else {
                 minkowski() {
-                    sphere_thickness = (wall_thickness/2)-2;
+                    sphere_thickness = (wall_thickness/2)-1;
                     wall_thickness = 1;
                     unsmoothed();
                     sphere(sphere_thickness, $fn = smooth_edges_sphere_thickness);
@@ -282,56 +318,48 @@ module finished_head() {
             
             
             // Auxillary lighting
-            // There is no way to effectively add this programatically, so it is included as a reference for you to adjust on your own, should you desire to add it this way
             // Light cut outs
-            translate([335, 72, 58]) {
-                xrot(-47) yrot(-7) zrot(-1)
-                prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
+            translate([lower_horn_light_x_position, lower_horn_light_y_position, lower_horn_light_z_position]) {
+                xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
+                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
             }
-            translate([355, 74, 61]) {
-                xrot(-47) yrot(-7) zrot(-1)
-                prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
+            translate([middle_horn_light_x_position, middle_horn_light_y_position, middle_horn_light_z_position]) {
+                xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
+                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
             }
-            translate([375, 76, 63]) {
-                xrot(-47) yrot(-7) zrot(-1)
-                prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
+            translate([upper_horn_light_x_position, upper_horn_light_y_position, upper_horn_light_z_position]) {
+                xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
+                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
             }
-            translate([335, -71, 60]) {
-                xrot(47) yrot(-7) zrot(1)
-                prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
+            translate([lower_horn_light_x_position, -lower_horn_light_y_position+1, lower_horn_light_z_position+1]) {
+                xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
+                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
             }
-            translate([355, -73, 62]) {
-                xrot(47) yrot(-7) zrot(1)
-                prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
+            translate([middle_horn_light_x_position, -middle_horn_light_y_position+1, middle_horn_light_z_position+1]) {
+                xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
+                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
             }
-            translate([375, -75, 64]) {
-                xrot(47) yrot(-7) zrot(1)
-                prismoid(size1 = [5, 10], size2=[5, 10], orient=LEFT, h = 14, anchor=TOP+LEFT);
+            translate([upper_horn_light_x_position, -upper_horn_light_y_position+1, upper_horn_light_z_position+1]) {
+                xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
+                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
             }
             // Cable management
-            translate([262, -67, 48]) {
-                xrot(28) yrot(-9) xrot(14)
-                cube([3, 5, 120], anchor=TOP, orient=LEFT);
+            translate([cable_management_trunking_x_position, -cable_management_trunking_y_position, cable_management_trunking_z_position]) {
+                xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation)
+                cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
             }
-            translate([262, -66, 47]) {
-                xrot(28) yrot(-9) xrot(14)
-                cube([3, 5, 20], anchor=TOP, orient=LEFT);
-            }
-            translate([262, 67, 48]) {
-                xrot(-28) yrot(-9) xrot(-14)
-                cube([3, 5, 120], anchor=TOP, orient=LEFT);
-            }
-            translate([262, 66, 47]) {
-                xrot(-28) yrot(-9) xrot(-14)
-                cube([3, 5, 20], anchor=TOP, orient=LEFT);
+            
+            translate([cable_management_trunking_x_position, cable_management_trunking_y_position, cable_management_trunking_z_position]) {
+                xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation)
+                cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
             }
         }
     }
 }
 
+       
 
 
-            
 if (render_head == true) {
     finished_head();
 }
