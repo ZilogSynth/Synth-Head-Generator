@@ -19,7 +19,7 @@ smooth_edges_sphere_thickness = 12; // The amount of smoothing to apply. The mor
 jaw_front_width_amount = 10; // This is the amount of difference in the head and the jaw
 jaw_rear_width_amount = 10; // See above
 jaw_front_height = 80;
-jaw_rear_height = 320;
+jaw_rear_height = 380;
 // You will get an error: "Requested roundings and/or chamfers exceed the rect height." if these are too high.
 jaw_front_rounding = 44;
 jaw_rear_rounding = 50;
@@ -34,11 +34,11 @@ head_entrance_mid_cut_compensation = 6; // For some reason the front cut isn't p
 
 jaw_z_shift = -20; // This moves the entire jaw assembly down
 jaw_x_shift = 5; // This moves the entire jaw assembly back
-jaw_height = 90;
+jaw_height = 100;
 jaw_width = 40;
 jaw_rounding = 50;
 
-chin_width = 99;
+chin_width = 100;
 chin_height = 100;
 chin_shift = 80;
 chin_depth = 300;
