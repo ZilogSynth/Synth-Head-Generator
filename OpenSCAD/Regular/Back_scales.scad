@@ -15,25 +15,26 @@ smoothness = 380;
 
 scale_thickness = 1;
 
-scale_cut_rotation = 20;
+scale_cut_rotation = 24;
 
 first_scale_front_height = 168;
 first_scale_front_width = 180;
 first_scale_rear_height = 168;
-first_scale_rear_width = 205;
-first_scale_front_rounding = 90;
-first_scale_rear_rounding = 80;
+first_scale_rear_width = 190;
+first_scale_front_rounding = 80;
+first_scale_rear_rounding = 95;
 first_scale_length = 50;
-first_scale_x_location = 300;
+first_scale_x_location = 270;
+first_scale_z_location = -2;
 first_scale_rotation = 10;
 first_scale_cut_off_height = 190;
 
 second_scale_front_height = 168;
 second_scale_front_width = 180;
 second_scale_rear_height = 168;
-second_scale_rear_width = 205;
-second_scale_front_rounding = 80;
-second_scale_rear_rounding = 70;
+second_scale_rear_width = 190;
+second_scale_front_rounding = 90;
+second_scale_rear_rounding = 95;
 second_scale_length = 50;
 second_scale_x_location = 334;
 second_scale_z_location = -8;
@@ -43,9 +44,9 @@ second_scale_cut_off_height = 180;
 third_scale_front_height = 168;
 third_scale_front_width = 180;
 third_scale_rear_height = 168;
-third_scale_rear_width = 205;
-third_scale_front_rounding = 70;
-third_scale_rear_rounding = 70;
+third_scale_rear_width = 190;
+third_scale_front_rounding = 90;
+third_scale_rear_rounding = 95;
 third_scale_length = 50;
 third_scale_x_location = 360;
 third_scale_z_location = -18;
@@ -55,57 +56,57 @@ third_scale_cut_off_height = 170;
 fourth_scale_front_height = 168;
 fourth_scale_front_width = 180;
 fourth_scale_rear_height = 168;
-fourth_scale_rear_width = 205;
-fourth_scale_front_rounding = 70;
-fourth_scale_rear_rounding = 70;
+fourth_scale_rear_width = 190;
+fourth_scale_front_rounding = 90;
+fourth_scale_rear_rounding = 95;
 fourth_scale_length = 50;
 fourth_scale_x_location = 382;
 fourth_scale_z_location = -28;
 fourth_scale_rotation = 45;
-fourth_scale_cut_off_height = 160;
+fourth_scale_cut_off_height = 170;
 
 fifth_scale_front_height = 168;
 fifth_scale_front_width = 180;
-fifth_scale_rear_height = 168;
-fifth_scale_rear_width = 205;
-fifth_scale_front_rounding = 70;
-fifth_scale_rear_rounding = 70;
-fifth_scale_length = 50;
+fifth_scale_rear_height = 158;
+fifth_scale_rear_width = 190;
+fifth_scale_front_rounding = 90;
+fifth_scale_rear_rounding = 95;
+fifth_scale_length = 40;
 fifth_scale_x_location = 392;
 fifth_scale_z_location = -38;
 fifth_scale_rotation = 65;
-fifth_scale_cut_off_height = 150;
+fifth_scale_cut_off_height = 180;
 
 sixth_scale_front_height = 168;
-sixth_scale_front_width = 180;
-sixth_scale_rear_height = 168;
-sixth_scale_rear_width = 205;
-sixth_scale_front_rounding = 70;
-sixth_scale_rear_rounding = 70;
-sixth_scale_length = 50;
-sixth_scale_x_location = 404;
+sixth_scale_front_width = 170;
+sixth_scale_rear_height = 158;
+sixth_scale_rear_width = 180;
+sixth_scale_front_rounding = 85;
+sixth_scale_rear_rounding = 90;
+sixth_scale_length = 40;
+sixth_scale_x_location = 395;
 sixth_scale_z_location = -56;
 sixth_scale_rotation = 85;
-sixth_scale_cut_off_height = 150;
+sixth_scale_cut_off_height = 190;
 
 seventh_scale_front_height = 168;
-seventh_scale_front_width = 180;
-seventh_scale_rear_height = 168;
-seventh_scale_rear_width = 205;
-seventh_scale_front_rounding = 70;
-seventh_scale_rear_rounding = 70;
-seventh_scale_length = 50;
-seventh_scale_x_location = 406;
+seventh_scale_front_width = 158;
+seventh_scale_rear_height = 158;
+seventh_scale_rear_width = 158;
+seventh_scale_front_rounding = 77.5;
+seventh_scale_rear_rounding = 77.5;
+seventh_scale_length = 40;
+seventh_scale_x_location = 390;
 seventh_scale_z_location = -90;
 seventh_scale_rotation = 90;
-seventh_scale_cut_off_height = 150;
+seventh_scale_cut_off_height = 200;
 
 if (render_head == true) {
     unsmoothed();
 }
 
 color("red") {
-    translate([first_scale_x_location, 0, 0]) {
+    translate([first_scale_x_location, 0, first_scale_z_location]) {
         yrot(first_scale_rotation) 
         difference() {
             rect_tube(size1=[first_scale_front_height, first_scale_front_width], size2=[first_scale_rear_height, first_scale_rear_width], wall=scale_thickness, h=first_scale_length, rounding1=[0, first_scale_front_rounding, first_scale_front_rounding, 0], rounding2=[0, first_scale_rear_rounding, first_scale_rear_rounding, 0], orient=RIGHT, $fn=smoothness);

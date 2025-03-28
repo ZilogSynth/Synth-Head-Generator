@@ -9,26 +9,26 @@ include <BOSL2/rounding.scad>
 
 include <Head.scad>;
 
-render_head = false; // Set to render the head too so that you can get an idea of fit
+render_head = false; // Set to render the head too so that you can get an idea of fit, set to false to render just the jaw for use in production
 smoothness = 380;
 
-mount_front_location = 270;
+mount_front_location = 290;
 mount_rear_location = 380;
-mount_thickness = 2;
-mount_scale = 0.8;
+mount_thickness = 1;
+mount_scale = 0.9;
 mount_body_height = 55;
-mount_body_thickness = 5;
+mount_body_thickness = 2;
 mount_body_front_width = 150;
 mount_body_rear_width = 166;
 mount_body_x_location = 135;
-mount_body_z_location = -23;
+mount_body_z_location = -13;
 
-mount_body_remove_front_width = 128;
-mount_body_remove_rear_width = 144;
+mount_body_remove_front_width = 139;
+mount_body_remove_rear_width = 155;
 
-mount_bottom_cut_off = -135;
+mount_bottom_cut_off = -125;
 
-mount_top_cut_off = 140;
+mount_top_cut_off = 150;
 
 if (render_head == true) {
     unsmoothed();

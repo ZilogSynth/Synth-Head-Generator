@@ -12,45 +12,45 @@ render_head = true; // Set this to false for other files to operate correctly
 smooth_edges = false; // Setting this to true will smooth edges and is INCREDIBLY slow (hours!).
 smooth_edges_sphere_thickness = 12; // The amount of smoothing to apply. The more smoothing, the exponentially greater resources needed
 smoothness = 380; // Setting this to 400 makes the model completely smooth but is heavy on resources. Set to lower until you have completed your changes.
-front_width = 115;
-front_height = 80;
-rear_width = 265;
-rear_height = 220;
+front_width = 125;
+front_height = 90;
+rear_width = 285;
+rear_height = 240;
 overall_length = 470;
 wall_thickness = 4;
 bottom_cut_adjustment = 12; // Change this if the bottom of the head is not cut correctly
 
 // You will get an error: "Requested roundings and/or chamfers exceed the rect height." if these are too high.
-front_rounding = 50;
-rear_rounding = 120;
+front_rounding = 60;
+rear_rounding = 130;
 
 // Bottom strike plate/shelf in front_visor
 strike_plate_length = 40;
 strike_plate_thickness = 1;
-strike_plate_front_width = 115;
-strike_plate_rear_width = 115;
+strike_plate_front_width = 122;
+strike_plate_rear_width = 140;
 strike_plate_z_location = -20;
 strike_plate_x_location = 5;
 
 // Visor
 visor_start = 0; // Distance from the "end" of the snoot for visor to start
-first_visor_depth = 15; // How deep the visor should "cut" into the base
+first_visor_depth = 10; // How deep the visor should "cut" into the base
 first_visor_length = 80; // Overall length of visor
-breakpoint = 25; // This is how far away you want the breakpoint in the visor
+breakpoint = 25; // This is how far away you want the breakpoint in the visor. Set to 0 for no breakpoint.
 second_visor_depth = 10;
 second_visor_length = 200;
 
 // Horns
 top_horn_length = 180;
-top_front_horn_gap = 130;
-top_rear_horn_gap = 160;
-mid_horn_top_length = 120;
-mid_horn_bottom_length = 170;
-mid_horn_start = -20;
-mid_horn_thickness = 70;
+top_front_horn_gap = 150;
+top_rear_horn_gap = 180;
+mid_horn_top_length = 130;
+mid_horn_bottom_length = 180;
+mid_horn_start = -30;
+mid_horn_thickness = 80;
 mid_horn_cut_rotation = -2;
-bottom_horn_top_length = 180;
-bottom_horn_bottom_length = 260;
+bottom_horn_top_length = 190;
+bottom_horn_bottom_length = 270;
 bottom_horn_cut_height = 120;
 bottom_horn_cut_rotation = 0;
 
@@ -89,7 +89,7 @@ third_bite_scale = 0.9;
 third_bite_radius = 200;
 
 // Hardware
-jaw_holder_length = 186; // Change this value so that the jaw holders are flush with the head, without poking a hole in the model
+jaw_holder_length = 201; // Change this value so that the jaw holders are flush with the head, without poking a hole in the model
 jaw_holder_height = -40;
 jaw_holder_location = 235;
 jaw_holder_circ = 10;
@@ -97,16 +97,16 @@ jaw_holder_wall_thickness = 2;
 jaw_holder_wall_height = 20;
 
 top_strap_holder_width = 34;
-top_strap_holder_location = 265;
+top_strap_holder_location = 245;
 top_strap_holder_height = -2;
 top_strap_holder_scale = 0.4;
-top_strap_holder_cut_size = 160; // Change this value so that the cut for the top strap is within the walls but not poking through the entire walls of the model
+top_strap_holder_cut_size = 169; // Change this value so that the cut for the top strap is within the walls but not poking through the entire walls of the model
 
 side_strap_holders_width = 32;
 side_strap_holders_location = 250;
 side_strap_holders_height = -14;
-side_strap_holders_cut_size = 192; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
-side_strap_holders_scale = 0.4; // this enables the strap mounts to be thinner
+side_strap_holders_cut_size = 207; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
+side_strap_holders_scale = 0.32; // this enables the strap mounts to be thinner
 side_strap_rotation = 4;
 
 // Auxillary lighting - these are mirrored to the other side
@@ -116,7 +116,7 @@ horn_light_length = 10;
 horn_light_width = 5;
 
 lower_horn_light_x_position = 300;
-lower_horn_light_y_position = 72;
+lower_horn_light_y_position = 83;
 lower_horn_light_z_position = 58;
 
 middle_horn_light_x_position = lower_horn_light_x_position+20;
@@ -133,7 +133,7 @@ horn_light_z_rotation = 1;
 
 // Cable management
 cable_management_trunking_x_position = 222;
-cable_management_trunking_y_position = 62;
+cable_management_trunking_y_position = 73;
 cable_management_trunking_z_position = 49;
 
 cable_management_trunking_x_rotation = 36;
@@ -141,7 +141,7 @@ cable_management_trunking_y_rotation = 10;
 cable_management_trunking_z_rotation = -1;
 
 cable_management_trunking_depth = 2;
-cable_management_trunking_width = 5;
+cable_management_trunking_width = 7;
 cable_management_trunking_length = 130;
 
 
@@ -155,7 +155,11 @@ module mainBody() {
             // Visor first cut
             translate([visor_start, 0, -first_visor_depth]) {
                 translate([first_visor_length/2, 0, 0]) {
-                    yrot(-30) cuboid(size=[first_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
+                    if (breakpoint == 0) {
+                        yrot(0) cuboid(size=[first_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
+                    } else {
+                        yrot(-30) cuboid(size=[first_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
+                    }
                 }
                 cuboid(size=[first_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
             }
@@ -356,9 +360,6 @@ module finished_head() {
         }
     }
 }
-
-       
-
 
 if (render_head == true) {
     finished_head();
