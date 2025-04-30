@@ -56,11 +56,11 @@ chin_side_cut_location = 120;
 
 jaw_holder_length_extra = 15; // This is the amount of "extra material" to add to the jaw holder length to compensate for any bending
 jaw_holder_width_extra = -1; // This is the amount of width taken away to ensure the jaw_folder fits into the hole
-side_strap_holders_width = 36;
+side_strap_holders_width = 60;
 side_strap_holders_location = 170;
 side_strap_holders_height = -44;
-side_strap_holders_front_cut = 73; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
-side_strap_holders_rear_cut = 79; // Change this value to compensate for the fact the gap is larger at the back of the jaw
+side_strap_holders_front_cut = 70.5; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
+side_strap_holders_rear_cut = 80; // Change this value to compensate for the fact the gap is larger at the back of the jaw
 side_strap_rotation = 95;
 side_strap_cut_scale = 0.4; // This enables the strap cut outs to be thinner
 

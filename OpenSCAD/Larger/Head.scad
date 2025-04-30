@@ -351,11 +351,15 @@ module finished_head() {
             translate([cable_management_trunking_x_position, -cable_management_trunking_y_position, cable_management_trunking_z_position]) {
                 xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation)
                 cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
+                xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation) cube([cable_management_trunking_depth+2, cable_management_trunking_width, 4], anchor=TOP+RIGHT, orient=LEFT);
+
             }
             
             translate([cable_management_trunking_x_position, cable_management_trunking_y_position, cable_management_trunking_z_position]) {
                 xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation)
                 cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
+                xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation) cube([cable_management_trunking_depth+2, cable_management_trunking_width, 4], anchor=TOP+RIGHT, orient=LEFT);
+
             }
         }
     }
