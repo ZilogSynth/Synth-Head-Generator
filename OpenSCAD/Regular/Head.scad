@@ -21,14 +21,14 @@ wall_thickness = 4;
 bottom_cut_adjustment = 12; // Change this if the bottom of the head is not cut correctly
 
 // You will get an error: "Requested roundings and/or chamfers exceed the rect height." if these are too high.
-front_rounding = 50;
+front_rounding = 57.5;
 rear_rounding = 120;
 
 // Bottom strike plate/shelf in front_visor
 strike_plate_length = 40;
 strike_plate_thickness = 1;
 strike_plate_front_width = 115;
-strike_plate_rear_width = 115;
+strike_plate_rear_width = 125;
 strike_plate_z_location = -20;
 strike_plate_x_location = 5;
 
@@ -105,7 +105,7 @@ top_strap_holder_cut_size = 160; // Change this value so that the cut for the to
 side_strap_holders_width = 32;
 side_strap_holders_location = 250;
 side_strap_holders_height = -14;
-side_strap_holders_cut_size = 192; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
+side_strap_holders_cut_size = 191.4; // Change this value so that the cut for the side straps are within the walls but not poking through the entire walls of the model
 side_strap_holders_scale = 0.4; // this enables the strap mounts to be thinner
 side_strap_rotation = 4;
 
@@ -134,14 +134,14 @@ horn_light_z_rotation = 1;
 // Cable management
 cable_management_trunking_x_position = 222;
 cable_management_trunking_y_position = 62;
-cable_management_trunking_z_position = 49;
+cable_management_trunking_z_position = 48;
 
 cable_management_trunking_x_rotation = 36;
 cable_management_trunking_y_rotation = 10;
-cable_management_trunking_z_rotation = -1;
+cable_management_trunking_z_rotation = -0.7;
 
 cable_management_trunking_depth = 2;
-cable_management_trunking_width = 5;
+cable_management_trunking_width = 7;
 cable_management_trunking_length = 130;
 
 
@@ -347,15 +347,18 @@ module finished_head() {
                 xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
                 prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
             }
+            
             // Cable management
             translate([cable_management_trunking_x_position, -cable_management_trunking_y_position, cable_management_trunking_z_position]) {
                 xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation)
                 cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
+                xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation) cube([cable_management_trunking_depth+2, cable_management_trunking_width, 4], anchor=TOP+RIGHT, orient=LEFT);
             }
             
             translate([cable_management_trunking_x_position, cable_management_trunking_y_position, cable_management_trunking_z_position]) {
                 xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation)
                 cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
+                xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation) cube([cable_management_trunking_depth+2, cable_management_trunking_width, 4], anchor=TOP+RIGHT, orient=LEFT);
             }
         }
     }
@@ -364,3 +367,4 @@ module finished_head() {
 if (render_head == true) {
     finished_head();
 }
+
