@@ -1,4 +1,4 @@
-// Synth head v by Zilog/PyneRed
+// Synth head by Zilog/PyneRed
 
 // Released with under the CC0 1.0 Universal license and is public domain. For more information on licensing visit: https://creativecommons.org/publicdomain/zero/1.0/
 
