@@ -1,4 +1,4 @@
-// Synth head v2 by Zilog/PyneRed
+// Synth head by Zilog/PyneRed
 
 // Released with under the CC0 1.0 Universal license and is public domain. For more information on licensing visit: https://creativecommons.org/publicdomain/zero/1.0/
 
@@ -25,7 +25,7 @@ jaw_front_rounding = 44;
 jaw_rear_rounding = 50;
 rear_cut = 250; // This is to remove excess amount of jaw from the rear, set this so it is within the head
 rear_cut_cylinder_z_location = -80;
-top_cut_adjustment = 110; // This is to remove excess amount of jaw from the top, set this to a reasonable height
+top_cut_adjustment = 120; // This is to remove excess amount of jaw from the top, set this to a reasonable height
 
 head_entrance_radius = 82;
 head_entrance_rear_width = 222;
@@ -87,7 +87,7 @@ module jaw() {
                     
                     // top cut
                     translate([0, 0, top_cut_adjustment]) {
-                        prismoid(size1=[top_cut_block_height, rear_width], size2=[top_cut_block_height, rear_width], h=overall_length, orient=RIGHT);
+                        prismoid(size1=[rear_height, rear_width], size2=[rear_height, rear_width], h=overall_length, orient=RIGHT);
                     }
                     
                     // Side bite cut
