@@ -23,7 +23,7 @@ first_scale_front_width = 110;
 first_scale_rear_height = 98;
 first_scale_rear_width = 142;
 first_scale_front_rounding = 40;
-first_scale_rear_rounding = 71 ;
+first_scale_rear_rounding = 71;
 first_scale_length = 60;
 first_scale_x_location = 120;
 first_scale_y_location = 0;
@@ -58,41 +58,41 @@ third_scale_rotation = 70;
 third_scale_cut_off_height = 80;
 
 if (render_head == true) {
-    unsmoothed();
+  unsmoothed();
 }
 
 color("red") {
-    translate([first_scale_x_location, first_scale_y_location, first_scale_z_location]) {
-        yrot(first_scale_rotation) 
-        difference() {
-            rect_tube(size1=[first_scale_front_height, first_scale_front_width], size2=[first_scale_rear_height, first_scale_rear_width], wall=scale_thickness, h=first_scale_length, rounding1=[first_scale_front_rounding, 0, 0, first_scale_front_rounding], rounding2=[first_scale_rear_rounding, 0, 0, first_scale_rear_rounding], orient=RIGHT, $fn=smoothness);
-            translate([0, 0, first_scale_front_height]) {
-                yrot(scale_cut_rotation) cuboid(size=[overall_length, rear_width, first_scale_cut_off_height], anchor=TOP);
-            }
+  translate([first_scale_x_location, first_scale_y_location, first_scale_z_location]) {
+    yrot(first_scale_rotation)
+      difference() {
+        rect_tube(size1=[first_scale_front_height, first_scale_front_width], size2=[first_scale_rear_height, first_scale_rear_width], wall=scale_thickness, h=first_scale_length, rounding1=[first_scale_front_rounding, 0, 0, first_scale_front_rounding], rounding2=[first_scale_rear_rounding, 0, 0, first_scale_rear_rounding], orient=RIGHT, $fn=smoothness);
+        translate([0, 0, first_scale_front_height]) {
+          yrot(scale_cut_rotation) cuboid(size=[overall_length, rear_width, first_scale_cut_off_height], anchor=TOP);
         }
-    }
+      }
+  }
 }
 
 color("red") {
-    translate([second_scale_x_location, second_scale_y_location, second_scale_z_location]) {
-        yrot(second_scale_rotation) 
-        difference() {
-            rect_tube(size1=[second_scale_front_height, second_scale_front_width], size2=[second_scale_rear_height, second_scale_rear_width], wall=scale_thickness, h=second_scale_length, rounding1=[second_scale_front_rounding, 0, 0, second_scale_front_rounding], rounding2=[second_scale_rear_rounding, 0, 0, second_scale_rear_rounding], orient=RIGHT, $fn=smoothness);
-            translate([0, 0, second_scale_front_height]) {
-                yrot(scale_cut_rotation) cuboid(size=[overall_length, rear_width, second_scale_cut_off_height], anchor=TOP);
-            }
+  translate([second_scale_x_location, second_scale_y_location, second_scale_z_location]) {
+    yrot(second_scale_rotation)
+      difference() {
+        rect_tube(size1=[second_scale_front_height, second_scale_front_width], size2=[second_scale_rear_height, second_scale_rear_width], wall=scale_thickness, h=second_scale_length, rounding1=[second_scale_front_rounding, 0, 0, second_scale_front_rounding], rounding2=[second_scale_rear_rounding, 0, 0, second_scale_rear_rounding], orient=RIGHT, $fn=smoothness);
+        translate([0, 0, second_scale_front_height]) {
+          yrot(scale_cut_rotation) cuboid(size=[overall_length, rear_width, second_scale_cut_off_height], anchor=TOP);
         }
-    }
+      }
+  }
 }
 
 color("red") {
-    translate([third_scale_x_location, third_scale_y_location, third_scale_z_location]) {
-        yrot(third_scale_rotation) 
-        difference() {
-            rect_tube(size1=[third_scale_front_height, third_scale_front_width], size2=[third_scale_rear_height, third_scale_rear_width], wall=scale_thickness, h=third_scale_length, rounding1=[third_scale_front_rounding, 0, 0, third_scale_front_rounding], rounding2=[third_scale_rear_rounding, 0, 0, third_scale_rear_rounding], orient=RIGHT, $fn=smoothness);
-            translate([0, 0, third_scale_front_height]) {
-                yrot(scale_cut_rotation) cuboid(size=[overall_length, rear_width, third_scale_cut_off_height], anchor=TOP);
-            }
+  translate([third_scale_x_location, third_scale_y_location, third_scale_z_location]) {
+    yrot(third_scale_rotation)
+      difference() {
+        rect_tube(size1=[third_scale_front_height, third_scale_front_width], size2=[third_scale_rear_height, third_scale_rear_width], wall=scale_thickness, h=third_scale_length, rounding1=[third_scale_front_rounding, 0, 0, third_scale_front_rounding], rounding2=[third_scale_rear_rounding, 0, 0, third_scale_rear_rounding], orient=RIGHT, $fn=smoothness);
+        translate([0, 0, third_scale_front_height]) {
+          yrot(scale_cut_rotation) cuboid(size=[overall_length, rear_width, third_scale_cut_off_height], anchor=TOP);
         }
-    }
+      }
+  }
 }

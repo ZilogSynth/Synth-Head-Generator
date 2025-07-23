@@ -119,13 +119,13 @@ lower_horn_light_x_position = 300;
 lower_horn_light_y_position = 83;
 lower_horn_light_z_position = 58;
 
-middle_horn_light_x_position = lower_horn_light_x_position+20;
-middle_horn_light_y_position = lower_horn_light_y_position+2;
-middle_horn_light_z_position = lower_horn_light_z_position+3;
+middle_horn_light_x_position = lower_horn_light_x_position + 20;
+middle_horn_light_y_position = lower_horn_light_y_position + 2;
+middle_horn_light_z_position = lower_horn_light_z_position + 3;
 
-upper_horn_light_x_position = middle_horn_light_x_position+20;
-upper_horn_light_y_position = middle_horn_light_y_position+2;
-upper_horn_light_z_position = middle_horn_light_z_position+3;
+upper_horn_light_x_position = middle_horn_light_x_position + 20;
+upper_horn_light_y_position = middle_horn_light_y_position + 2;
+upper_horn_light_z_position = middle_horn_light_z_position + 3;
 
 horn_light_x_rotation = 47;
 horn_light_y_rotation = 7;
@@ -144,227 +144,223 @@ cable_management_trunking_depth = 2;
 cable_management_trunking_width = 7;
 cable_management_trunking_length = 130;
 
-
 // Main build
 module mainBody() {
-    difference() {
-        rect_tube(size1=[front_height, front_width], size2=[rear_height, rear_width], wall=wall_thickness, h=overall_length, rounding1=[0, front_rounding, front_rounding, 0], rounding2=[0, rear_rounding, rear_rounding, 0], orient=RIGHT, $fn=smoothness);
+  difference() {
+    rect_tube(size1=[front_height, front_width], size2=[rear_height, rear_width], wall=wall_thickness, h=overall_length, rounding1=[0, front_rounding, front_rounding, 0], rounding2=[0, rear_rounding, rear_rounding, 0], orient=RIGHT, $fn=smoothness);
 
-        // Main body cuts
-        union () {
-            // Visor first cut
-            translate([visor_start, 0, -first_visor_depth]) {
-                translate([first_visor_length/2, 0, 0]) {
-                    if (breakpoint == 0) {
-                        yrot(0) cuboid(size=[first_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
-                    } else {
-                        yrot(-30) cuboid(size=[first_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
-                    }
-                }
-                cuboid(size=[first_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
-            }
-            
-            // visor last cut
-            translate([visor_start+first_visor_length+breakpoint, 0, -second_visor_depth]) {
-                yrot(-30) cuboid(size=[second_visor_length/2, 200, 100], anchor=LEFT+BOTTOM);
-                cuboid(size=[second_visor_length/2, 300, 200], anchor=LEFT+BOTTOM);
-            }
-            
-            // Top horn cut
-            translate([overall_length-top_horn_length, 0, 0]) {
-                prismoid(size1 = [rear_width/2, top_rear_horn_gap], size2=[rear_width/2, top_front_horn_gap], orient=LEFT, h = top_horn_length, anchor=TOP+LEFT);
-            }
-            
-            // Mid horn cut
-            translate([overall_length-(mid_horn_cut_rotation*2), 0, mid_horn_start]) {
-                yrot(mid_horn_cut_rotation) prismoid(size1 = [mid_horn_bottom_length, rear_width], size2 = [mid_horn_top_length, rear_width], shift = [(mid_horn_bottom_length-mid_horn_top_length)/2, 0], h = mid_horn_thickness, anchor=BOTTOM+RIGHT);
-            }
-            
-            // Bottom horn cut
-            translate([overall_length-(bottom_horn_cut_rotation*2), 0, -rear_height/2]) {
-                yrot(bottom_horn_cut_rotation) prismoid(size1 = [bottom_horn_bottom_length, rear_width], size2 = [bottom_horn_top_length-bottom_horn_cut_rotation, rear_width], shift = [(bottom_horn_bottom_length-bottom_horn_top_length)/2, 0], h = bottom_horn_cut_height, anchor=BOTTOM+RIGHT);
-            }
+    // Main body cuts
+    union() {
+      // Visor first cut
+      translate([visor_start, 0, -first_visor_depth]) {
+        translate([first_visor_length / 2, 0, 0]) {
+          if (breakpoint == 0) {
+            yrot(0) cuboid(size=[first_visor_length / 2, 200, 100], anchor=LEFT + BOTTOM);
+          } else {
+            yrot(-30) cuboid(size=[first_visor_length / 2, 200, 100], anchor=LEFT + BOTTOM);
+          }
         }
+        cuboid(size=[first_visor_length / 2, 200, 100], anchor=LEFT + BOTTOM);
+      }
+
+      // visor last cut
+      translate([visor_start + first_visor_length + breakpoint, 0, -second_visor_depth]) {
+        yrot(-30) cuboid(size=[second_visor_length / 2, 200, 100], anchor=LEFT + BOTTOM);
+        cuboid(size=[second_visor_length / 2, 300, 200], anchor=LEFT + BOTTOM);
+      }
+
+      // Top horn cut
+      translate([overall_length - top_horn_length, 0, 0]) {
+        prismoid(size1=[rear_width / 2, top_rear_horn_gap], size2=[rear_width / 2, top_front_horn_gap], orient=LEFT, h=top_horn_length, anchor=TOP + LEFT);
+      }
+
+      // Mid horn cut
+      translate([overall_length - (mid_horn_cut_rotation * 2), 0, mid_horn_start]) {
+        yrot(mid_horn_cut_rotation) prismoid(size1=[mid_horn_bottom_length, rear_width], size2=[mid_horn_top_length, rear_width], shift=[(mid_horn_bottom_length - mid_horn_top_length) / 2, 0], h=mid_horn_thickness, anchor=BOTTOM + RIGHT);
+      }
+
+      // Bottom horn cut
+      translate([overall_length - (bottom_horn_cut_rotation * 2), 0, -rear_height / 2]) {
+        yrot(bottom_horn_cut_rotation) prismoid(size1=[bottom_horn_bottom_length, rear_width], size2=[bottom_horn_top_length - bottom_horn_cut_rotation, rear_width], shift=[(bottom_horn_bottom_length - bottom_horn_top_length) / 2, 0], h=bottom_horn_cut_height, anchor=BOTTOM + RIGHT);
+      }
     }
-    
-    // Snoot
-    difference() {
-        intersection() {
-            prismoid(size1 = [front_height, front_width], size2 = [snoot_height, snoot_width], shift=[snoot_shift, 0], h = snoot_depth, rounding1 = [front_rounding, 0, 0, front_rounding], rounding2 = [snoot_width/2, 0, 0, snoot_width/2], orient = LEFT, $fn = smoothness);
-            
-            scale([snoot_scale, 1, 1]) {
-                cyl(l=front_height, d=front_width, rounding1=0, rounding2=snoot_front_rounding, $fn = smoothness);
-            }
-        }
-        translate([wall_thickness, 0, -wall_thickness]) {
-            intersection() {
-                prismoid(size1 = [front_height, front_width-wall_thickness], size2 = [snoot_height, snoot_width-wall_thickness], shift=[snoot_shift, 0], h = snoot_depth, rounding1 = [front_rounding-wall_thickness, 0, 0, front_rounding-wall_thickness], rounding2 = [(snoot_width/2)-wall_thickness, 0, 0, (snoot_width/2)-wall_thickness], orient = LEFT, $fn = smoothness);
-        
-                scale([snoot_scale, 1, 1]) {
-                    cyl(l=front_height, d=front_width, rounding1=0, rounding2=snoot_front_rounding, $fn = smoothness);
-                }
-            }
-        }
+  }
+
+  // Snoot
+  difference() {
+    intersection() {
+      prismoid(size1=[front_height, front_width], size2=[snoot_height, snoot_width], shift=[snoot_shift, 0], h=snoot_depth, rounding1=[front_rounding, 0, 0, front_rounding], rounding2=[snoot_width / 2, 0, 0, snoot_width / 2], orient=LEFT, $fn=smoothness);
+
+      scale([snoot_scale, 1, 1]) {
+        cyl(l=front_height, d=front_width, rounding1=0, rounding2=snoot_front_rounding, $fn=smoothness);
+      }
     }
+    translate([wall_thickness, 0, -wall_thickness]) {
+      intersection() {
+        prismoid(size1=[front_height, front_width - wall_thickness], size2=[snoot_height, snoot_width - wall_thickness], shift=[snoot_shift, 0], h=snoot_depth, rounding1=[front_rounding - wall_thickness, 0, 0, front_rounding - wall_thickness], rounding2=[(snoot_width / 2) - wall_thickness, 0, 0, (snoot_width / 2) - wall_thickness], orient=LEFT, $fn=smoothness);
+
+        scale([snoot_scale, 1, 1]) {
+          cyl(l=front_height, d=front_width, rounding1=0, rounding2=snoot_front_rounding, $fn=smoothness);
+        }
+      }
+    }
+  }
 }
 
 // Create the unsmoothed body - this can later be smoothed with smooth_edges turned on.
 module unsmoothed() {
-    difference() {
-        mainBody();
-        
-        // Bottom cut... this is a large prismoid with some extra added on to cut the snoot appropriately
-        translate([-overall_length*0.1, 0, -rear_width/2-wall_thickness-bottom_cut_adjustment]) {
-            prismoid(size1=[front_height, rear_width], size2=[rear_height, rear_width], h=overall_length, orient=LEFT, anchor=TOP);
-        }
-        
-        // Front bite cut
-        translate([0, 0, front_bite_height]) {
-            scale([1, front_bite_scale, 1]) {
-                cyl(l = snoot_depth, orient=RIGHT, r=front_bite_radius, anchor=TOP, $fn = smoothness);
-            }
-        }
-        
-        // First bite cut
-        translate([first_bite_location, 0, first_bite_height]) {
-            scale([first_bite_scale, 1, 1]) {
-                cyl(l = rear_width, orient=FRONT, r=first_bite_radius, $fn = smoothness);
-            }
-        }
-        
-        // Second bite cut
-        translate([second_bite_location, 0, second_bite_height]) {
-            scale([second_bite_scale, 1, 1]) {
-                cyl(l = rear_width, orient=FRONT, r=second_bite_radius, $fn = smoothness);
-            }
-        }
-        
-        // Third bite cut
-        translate([third_bite_location, 0, third_bite_height]) {
-            scale([third_bite_scale, 1, 1]) {
-                cyl(l = rear_width, orient=FRONT, r=third_bite_radius, $fn = smoothness);
-            }
-        }
+  difference() {
+    mainBody();
+
+    // Bottom cut... this is a large prismoid with some extra added on to cut the snoot appropriately
+    translate([-overall_length * 0.1, 0, -rear_width / 2 - wall_thickness - bottom_cut_adjustment]) {
+      prismoid(size1=[front_height, rear_width], size2=[rear_height, rear_width], h=overall_length, orient=LEFT, anchor=TOP);
     }
+
+    // Front bite cut
+    translate([0, 0, front_bite_height]) {
+      scale([1, front_bite_scale, 1]) {
+        cyl(l=snoot_depth, orient=RIGHT, r=front_bite_radius, anchor=TOP, $fn=smoothness);
+      }
+    }
+
+    // First bite cut
+    translate([first_bite_location, 0, first_bite_height]) {
+      scale([first_bite_scale, 1, 1]) {
+        cyl(l=rear_width, orient=FRONT, r=first_bite_radius, $fn=smoothness);
+      }
+    }
+
+    // Second bite cut
+    translate([second_bite_location, 0, second_bite_height]) {
+      scale([second_bite_scale, 1, 1]) {
+        cyl(l=rear_width, orient=FRONT, r=second_bite_radius, $fn=smoothness);
+      }
+    }
+
+    // Third bite cut
+    translate([third_bite_location, 0, third_bite_height]) {
+      scale([third_bite_scale, 1, 1]) {
+        cyl(l=rear_width, orient=FRONT, r=third_bite_radius, $fn=smoothness);
+      }
+    }
+  }
 }
 
 // Add the hardware cuts (which are unsmoothed (smooth_edges)) to the model
 module finished_head() {
-    difference() {
-        union () {
-            if (smooth_edges == false) {
-                unsmoothed();
-            } else {
-                minkowski() {
-                    sphere_thickness = (wall_thickness/2)-1;
-                    wall_thickness = 1;
-                    unsmoothed();
-                    sphere(sphere_thickness, $fn = smooth_edges_sphere_thickness);
-                }
-            }
-            
-            // Jaw holder wall
-            translate([jaw_holder_location, 0, jaw_holder_height]) {
-                cyl(l = jaw_holder_length, orient=FRONT, r=jaw_holder_circ+jaw_holder_wall_thickness, $fn = smoothness);
-            }
-            
-            // Bottom shelf/strike plate
-            translate([strike_plate_x_location, 0, strike_plate_z_location]) {
-                prismoid(size1=[strike_plate_thickness, strike_plate_front_width], size2=[strike_plate_thickness, strike_plate_rear_width], height=strike_plate_length, orient=RIGHT);
-            }
+  difference() {
+    union() {
+      if (smooth_edges == false) {
+        unsmoothed();
+      } else {
+        minkowski() {
+          sphere_thickness = (wall_thickness / 2) - 1;
+          wall_thickness = 1;
+          unsmoothed();
+          sphere(sphere_thickness, $fn=smooth_edges_sphere_thickness);
         }
-        union () {
-            // jaw holder
-            translate([jaw_holder_location, 0, jaw_holder_height]) {
-                cyl(l = jaw_holder_length, orient=FRONT, r=jaw_holder_circ, $fn = smoothness);
-            }
-            // Jaw holder wall trim
-            translate([jaw_holder_location, 0, jaw_holder_height]) {
-                cyl(l = jaw_holder_length-jaw_holder_wall_height, orient=FRONT, r=jaw_holder_circ+jaw_holder_wall_thickness+1, $fn = smoothness);
-            }
-            
-            // Side strap cuts
-            translate([side_strap_holders_location, 0, side_strap_holders_height]) {
-                scale([side_strap_holders_scale, 1, 1]) {
-                    rotate([0, side_strap_rotation, 0]) {
-                        tube(h=side_strap_holders_width, or=side_strap_holders_cut_size/2, wall=2, $fn = smoothness);
-                    }
-                }
-            }
-            
-            // Top strap cut
-            translate([top_strap_holder_location, 0, top_strap_holder_height]) {
-                scale([top_strap_holder_scale, 1, 1]) {
-                    tube(h=top_strap_holder_width, or=top_strap_holder_cut_size/2, wall=2, orient=FRONT, $fn = smoothness);
-                }
-            }
-            
-            // Nostrils
-            translate([0, nostril_inner_y, nostril_inner_x]) {
-                cyl(h=snoot_depth, r=2, $fn = smoothness, orient=LEFT, anchor=BOTTOM);
-            }
-            translate([0, nostril_upper_y, nostril_upper_x]) {
-                cyl(h=snoot_depth, r=2, $fn = smoothness, orient=LEFT, anchor=BOTTOM);
-            }
-            translate([0, nostril_outer_y, nostril_outer_x]) {
-                cyl(h=snoot_depth, r=2, $fn = smoothness, orient=LEFT, anchor=BOTTOM);
-            }
+      }
 
-            translate([0, -nostril_inner_y, nostril_inner_x]) {
-                cyl(h=snoot_depth, r=2, $fn = smoothness, orient=LEFT, anchor=BOTTOM);
-            }
-            translate([0, -nostril_upper_y, nostril_upper_x]) {
-                cyl(h=snoot_depth, r=2, $fn = smoothness, orient=LEFT, anchor=BOTTOM);
-            }
-            translate([0, -nostril_outer_y, nostril_outer_x]) {
-                cyl(h=snoot_depth, r=2, $fn = smoothness, orient=LEFT, anchor=BOTTOM);
-            }
-            
-            
-            // Auxillary lighting
-            // Light cut outs
-            translate([lower_horn_light_x_position, lower_horn_light_y_position, lower_horn_light_z_position]) {
-                xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
-                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
-            }
-            translate([middle_horn_light_x_position, middle_horn_light_y_position, middle_horn_light_z_position]) {
-                xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
-                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
-            }
-            translate([upper_horn_light_x_position, upper_horn_light_y_position, upper_horn_light_z_position]) {
-                xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
-                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
-            }
-            translate([lower_horn_light_x_position, -lower_horn_light_y_position+1, lower_horn_light_z_position+1]) {
-                xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
-                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
-            }
-            translate([middle_horn_light_x_position, -middle_horn_light_y_position+1, middle_horn_light_z_position+1]) {
-                xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
-                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
-            }
-            translate([upper_horn_light_x_position, -upper_horn_light_y_position+1, upper_horn_light_z_position+1]) {
-                xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
-                prismoid(size1 = [horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h = horn_light_depth, anchor=TOP+LEFT);
-            }
-            // Cable management
-            translate([cable_management_trunking_x_position, -cable_management_trunking_y_position, cable_management_trunking_z_position]) {
-                xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation)
-                cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
-                xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation) cube([cable_management_trunking_depth+2, cable_management_trunking_width, 4], anchor=TOP+RIGHT, orient=LEFT);
+      // Jaw holder wall
+      translate([jaw_holder_location, 0, jaw_holder_height]) {
+        cyl(l=jaw_holder_length, orient=FRONT, r=jaw_holder_circ + jaw_holder_wall_thickness, $fn=smoothness);
+      }
 
-            }
-            
-            translate([cable_management_trunking_x_position, cable_management_trunking_y_position, cable_management_trunking_z_position]) {
-                xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation)
-                cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
-                xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation) cube([cable_management_trunking_depth+2, cable_management_trunking_width, 4], anchor=TOP+RIGHT, orient=LEFT);
-
-            }
-        }
+      // Bottom shelf/strike plate
+      translate([strike_plate_x_location, 0, strike_plate_z_location]) {
+        prismoid(size1=[strike_plate_thickness, strike_plate_front_width], size2=[strike_plate_thickness, strike_plate_rear_width], height=strike_plate_length, orient=RIGHT);
+      }
     }
+    union() {
+      // jaw holder
+      translate([jaw_holder_location, 0, jaw_holder_height]) {
+        cyl(l=jaw_holder_length, orient=FRONT, r=jaw_holder_circ, $fn=smoothness);
+      }
+      // Jaw holder wall trim
+      translate([jaw_holder_location, 0, jaw_holder_height]) {
+        cyl(l=jaw_holder_length - jaw_holder_wall_height, orient=FRONT, r=jaw_holder_circ + jaw_holder_wall_thickness + 1, $fn=smoothness);
+      }
+
+      // Side strap cuts
+      translate([side_strap_holders_location, 0, side_strap_holders_height]) {
+        scale([side_strap_holders_scale, 1, 1]) {
+          rotate([0, side_strap_rotation, 0]) {
+            tube(h=side_strap_holders_width, or=side_strap_holders_cut_size / 2, wall=2, $fn=smoothness);
+          }
+        }
+      }
+
+      // Top strap cut
+      translate([top_strap_holder_location, 0, top_strap_holder_height]) {
+        scale([top_strap_holder_scale, 1, 1]) {
+          tube(h=top_strap_holder_width, or=top_strap_holder_cut_size / 2, wall=2, orient=FRONT, $fn=smoothness);
+        }
+      }
+
+      // Nostrils
+      translate([0, nostril_inner_y, nostril_inner_x]) {
+        cyl(h=snoot_depth, r=2, $fn=smoothness, orient=LEFT, anchor=BOTTOM);
+      }
+      translate([0, nostril_upper_y, nostril_upper_x]) {
+        cyl(h=snoot_depth, r=2, $fn=smoothness, orient=LEFT, anchor=BOTTOM);
+      }
+      translate([0, nostril_outer_y, nostril_outer_x]) {
+        cyl(h=snoot_depth, r=2, $fn=smoothness, orient=LEFT, anchor=BOTTOM);
+      }
+
+      translate([0, -nostril_inner_y, nostril_inner_x]) {
+        cyl(h=snoot_depth, r=2, $fn=smoothness, orient=LEFT, anchor=BOTTOM);
+      }
+      translate([0, -nostril_upper_y, nostril_upper_x]) {
+        cyl(h=snoot_depth, r=2, $fn=smoothness, orient=LEFT, anchor=BOTTOM);
+      }
+      translate([0, -nostril_outer_y, nostril_outer_x]) {
+        cyl(h=snoot_depth, r=2, $fn=smoothness, orient=LEFT, anchor=BOTTOM);
+      }
+
+      // Auxillary lighting
+      // Light cut outs
+      translate([lower_horn_light_x_position, lower_horn_light_y_position, lower_horn_light_z_position]) {
+        xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
+              prismoid(size1=[horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h=horn_light_depth, anchor=TOP + LEFT);
+      }
+      translate([middle_horn_light_x_position, middle_horn_light_y_position, middle_horn_light_z_position]) {
+        xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
+              prismoid(size1=[horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h=horn_light_depth, anchor=TOP + LEFT);
+      }
+      translate([upper_horn_light_x_position, upper_horn_light_y_position, upper_horn_light_z_position]) {
+        xrot(-horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(-horn_light_z_rotation)
+              prismoid(size1=[horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h=horn_light_depth, anchor=TOP + LEFT);
+      }
+      translate([lower_horn_light_x_position, -lower_horn_light_y_position + 1, lower_horn_light_z_position + 1]) {
+        xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
+              prismoid(size1=[horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h=horn_light_depth, anchor=TOP + LEFT);
+      }
+      translate([middle_horn_light_x_position, -middle_horn_light_y_position + 1, middle_horn_light_z_position + 1]) {
+        xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
+              prismoid(size1=[horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h=horn_light_depth, anchor=TOP + LEFT);
+      }
+      translate([upper_horn_light_x_position, -upper_horn_light_y_position + 1, upper_horn_light_z_position + 1]) {
+        xrot(horn_light_x_rotation) yrot(-horn_light_y_rotation) zrot(horn_light_z_rotation)
+              prismoid(size1=[horn_light_width, horn_light_length], size2=[horn_light_width, horn_light_length], orient=LEFT, h=horn_light_depth, anchor=TOP + LEFT);
+      }
+      // Cable management
+      translate([cable_management_trunking_x_position, -cable_management_trunking_y_position, cable_management_trunking_z_position]) {
+        xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation)
+              cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
+        xrot(cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(cable_management_trunking_z_rotation) cube([cable_management_trunking_depth + 2, cable_management_trunking_width, 4], anchor=TOP + RIGHT, orient=LEFT);
+      }
+
+      translate([cable_management_trunking_x_position, cable_management_trunking_y_position, cable_management_trunking_z_position]) {
+        xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation)
+              cube([cable_management_trunking_depth, cable_management_trunking_width, cable_management_trunking_length], anchor=TOP, orient=LEFT);
+        xrot(-cable_management_trunking_x_rotation) yrot(-cable_management_trunking_y_rotation) zrot(-cable_management_trunking_z_rotation) cube([cable_management_trunking_depth + 2, cable_management_trunking_width, 4], anchor=TOP + RIGHT, orient=LEFT);
+      }
+    }
+  }
 }
 
 if (render_head == true) {
-    finished_head();
+  finished_head();
 }

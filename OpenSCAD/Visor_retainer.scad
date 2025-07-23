@@ -7,5 +7,4 @@
 include <BOSL2/std.scad>;
 include <BOSL2/rounding.scad>
 
-
-prismoid(size1=[4,10], size2=[4,5], h=5, shift=[8,0], rounding=2);
+prismoid(size1=[4, 10], size2=[4, 5], h=5, shift=[8, 0], rounding=2);

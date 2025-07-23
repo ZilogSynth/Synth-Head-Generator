@@ -65,144 +65,139 @@ side_strap_rotation = 95;
 side_strap_cut_scale = 0.4; // This enables the strap cut outs to be thinner
 
 if (render_head == true) {
-    unsmoothed();
+  unsmoothed();
 }
 
 module jaw() {
-    intersection() {
-        translate([0, 0, rear_cut_cylinder_z_location]) {
-            cyl(l = rear_width, orient=FRONT, r=rear_cut, $fn = smoothness);
-        }
-    
-        translate([jaw_x_shift, 0, jaw_z_shift]) {
-            difference() {
-                // Main jaw
-                rect_tube(size1=[jaw_front_height, front_width-wall_thickness-jaw_front_width_amount], size2=[jaw_rear_height, rear_width-wall_thickness-jaw_rear_width_amount], wall=wall_thickness, h=overall_length, rounding1=[jaw_front_rounding, 0, 0, jaw_front_rounding], rounding2=[jaw_rear_rounding, 0, 0, jaw_rear_rounding], orient=RIGHT, $fn=smoothness);
-                
-                union() {
-                    // rear cut
-                    translate([rear_cut, 0, 0]) {
-                        prismoid(size1=[jaw_rear_height+100, rear_width], size2=[jaw_rear_height+100, rear_width], h=overall_length, orient=RIGHT);
-                    }
-                    
-                    // top cut
-                    translate([0, 0, top_cut_adjustment]) {
-                        prismoid(size1=[rear_height, rear_width], size2=[rear_height, rear_width], h=overall_length, orient=RIGHT);
-                    }
-                    
-                    // Side bite cut
-                    translate([chin_side_cut_location, 0, chin_side_cut_height]) {
-                        rotate([0, chin_side_cut_rotation, 0]) {
-                            scale([1, 1, chin_side_bite_scale]) {
-                                cyl(l = rear_width, orient=FRONT, r=chin_side_bite, $fn = smoothness);
-                            }
-                        }
-                    }
-                    
-                    // Bottom cut / head entrance
-                    translate([head_entrance_location, 0, 0]) {
-                        cyl(l = overall_length, r = head_entrance_radius, $fn = smoothness);
-                        left(head_entrance_mid_cut_compensation) prismoid(size1=[overall_length, (head_entrance_radius*2)], size2=[overall_length, head_entrance_rear_width], h=(overall_length-head_entrance_location-head_entrance_radius), orient=RIGHT);
-                    }
-                }
-            }
-            
-
-
-            
-            // chin
-            difference() {
-                intersection() {
-                    prismoid(size1 = [jaw_front_height, front_width-wall_thickness-jaw_front_width_amount], size2 = [chin_height, chin_width], shift=[chin_shift, 0], h = chin_depth, rounding1 = [0, jaw_front_rounding, jaw_front_rounding, 0], rounding2 = [0, chin_width/2, chin_width/2, 0], orient = LEFT, $fn = smoothness);
-                    
-                    scale([snoot_scale, 1, 1]) {
-                        cyl(l=jaw_front_height, d=chin_width, rounding1=chin_front_rounding, rounding2=0, $fn = smoothness);
-                    }
-                }
-                translate([wall_thickness, 0, wall_thickness]) {
-                    intersection() {
-                        prismoid(size1 = [jaw_front_height, front_width-wall_thickness-jaw_front_width_amount-wall_thickness], size2 = [chin_height, chin_width-wall_thickness], shift=[chin_shift, 0], h = chin_depth, rounding1 = [0, jaw_front_rounding-wall_thickness, jaw_front_rounding-wall_thickness, 0], rounding2 = [0, (chin_width/2)-wall_thickness, (chin_width/2)-wall_thickness, 0], orient = LEFT, $fn = smoothness);
-                
-                        scale([snoot_scale, 1, 1]) {
-                            cyl(l=jaw_front_height, d=chin_width, rounding1=chin_front_rounding, rounding2=0, $fn = smoothness);
-                        }
-                    }
-                }
-                           
-                // chin cut
-                union () {
-                    translate([wall_thickness, 0, wall_thickness]) {
-                        intersection() {
-                            prismoid(size1 = [jaw_front_height, front_width-wall_thickness-wall_thickness-jaw_front_width_amount], size2 = [jaw_height, jaw_width-wall_thickness], shift=[-snoot_shift, 0], h = chin_depth, rounding1 = [0, jaw_front_rounding-wall_thickness, jaw_front_rounding-wall_thickness, 0], rounding2 = [0, (jaw_width/2)-wall_thickness, (jaw_width/2)-wall_thickness, 0], orient = LEFT, $fn = smoothness);
-                    
-                            scale([chin_scale, 1, 1]) {
-                                cyl(l=jaw_height, d=front_width-wall_thickness, rounding1=0, rounding2=jaw_rounding, $fn = smoothness);
-                            }
-                        }
-                    }
-                    
-                    // Front bite cut
-                    translate([0, 0, chin_front_cut_height]) {
-                        scale([1, 1, chin_front_scale]) {
-                            cyl(l = snoot_depth, orient=RIGHT, r=chin_front_bite, $fn = smoothness);
-                        }
-                    }
-                    
-                    // side bite cut
-                    translate([chin_side_cut_location, 0, chin_side_cut_height]) {
-                        rotate([0, chin_side_cut_rotation, 0]) {
-                            scale([1, 1, chin_side_bite_scale]) {
-                                cyl(l = rear_width, orient=FRONT, r=chin_side_bite, $fn = smoothness);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+  intersection() {
+    translate([0, 0, rear_cut_cylinder_z_location]) {
+      cyl(l=rear_width, orient=FRONT, r=rear_cut, $fn=smoothness);
     }
+
+    translate([jaw_x_shift, 0, jaw_z_shift]) {
+      difference() {
+        // Main jaw
+        rect_tube(size1=[jaw_front_height, front_width - wall_thickness - jaw_front_width_amount], size2=[jaw_rear_height, rear_width - wall_thickness - jaw_rear_width_amount], wall=wall_thickness, h=overall_length, rounding1=[jaw_front_rounding, 0, 0, jaw_front_rounding], rounding2=[jaw_rear_rounding, 0, 0, jaw_rear_rounding], orient=RIGHT, $fn=smoothness);
+
+        union() {
+          // rear cut
+          translate([rear_cut, 0, 0]) {
+            prismoid(size1=[jaw_rear_height + 100, rear_width], size2=[jaw_rear_height + 100, rear_width], h=overall_length, orient=RIGHT);
+          }
+
+          // top cut
+          translate([0, 0, top_cut_adjustment]) {
+            prismoid(size1=[rear_height, rear_width], size2=[rear_height, rear_width], h=overall_length, orient=RIGHT);
+          }
+
+          // Side bite cut
+          translate([chin_side_cut_location, 0, chin_side_cut_height]) {
+            rotate([0, chin_side_cut_rotation, 0]) {
+              scale([1, 1, chin_side_bite_scale]) {
+                cyl(l=rear_width, orient=FRONT, r=chin_side_bite, $fn=smoothness);
+              }
+            }
+          }
+
+          // Bottom cut / head entrance
+          translate([head_entrance_location, 0, 0]) {
+            cyl(l=overall_length, r=head_entrance_radius, $fn=smoothness);
+            left(head_entrance_mid_cut_compensation) prismoid(size1=[overall_length, (head_entrance_radius * 2)], size2=[overall_length, head_entrance_rear_width], h=(overall_length - head_entrance_location - head_entrance_radius), orient=RIGHT);
+          }
+        }
+      }
+
+      // chin
+      difference() {
+        intersection() {
+          prismoid(size1=[jaw_front_height, front_width - wall_thickness - jaw_front_width_amount], size2=[chin_height, chin_width], shift=[chin_shift, 0], h=chin_depth, rounding1=[0, jaw_front_rounding, jaw_front_rounding, 0], rounding2=[0, chin_width / 2, chin_width / 2, 0], orient=LEFT, $fn=smoothness);
+
+          scale([snoot_scale, 1, 1]) {
+            cyl(l=jaw_front_height, d=chin_width, rounding1=chin_front_rounding, rounding2=0, $fn=smoothness);
+          }
+        }
+        translate([wall_thickness, 0, wall_thickness]) {
+          intersection() {
+            prismoid(size1=[jaw_front_height, front_width - wall_thickness - jaw_front_width_amount - wall_thickness], size2=[chin_height, chin_width - wall_thickness], shift=[chin_shift, 0], h=chin_depth, rounding1=[0, jaw_front_rounding - wall_thickness, jaw_front_rounding - wall_thickness, 0], rounding2=[0, (chin_width / 2) - wall_thickness, (chin_width / 2) - wall_thickness, 0], orient=LEFT, $fn=smoothness);
+
+            scale([snoot_scale, 1, 1]) {
+              cyl(l=jaw_front_height, d=chin_width, rounding1=chin_front_rounding, rounding2=0, $fn=smoothness);
+            }
+          }
+        }
+
+        // chin cut
+        union() {
+          translate([wall_thickness, 0, wall_thickness]) {
+            intersection() {
+              prismoid(size1=[jaw_front_height, front_width - wall_thickness - wall_thickness - jaw_front_width_amount], size2=[jaw_height, jaw_width - wall_thickness], shift=[-snoot_shift, 0], h=chin_depth, rounding1=[0, jaw_front_rounding - wall_thickness, jaw_front_rounding - wall_thickness, 0], rounding2=[0, (jaw_width / 2) - wall_thickness, (jaw_width / 2) - wall_thickness, 0], orient=LEFT, $fn=smoothness);
+
+              scale([chin_scale, 1, 1]) {
+                cyl(l=jaw_height, d=front_width - wall_thickness, rounding1=0, rounding2=jaw_rounding, $fn=smoothness);
+              }
+            }
+          }
+
+          // Front bite cut
+          translate([0, 0, chin_front_cut_height]) {
+            scale([1, 1, chin_front_scale]) {
+              cyl(l=snoot_depth, orient=RIGHT, r=chin_front_bite, $fn=smoothness);
+            }
+          }
+
+          // side bite cut
+          translate([chin_side_cut_location, 0, chin_side_cut_height]) {
+            rotate([0, chin_side_cut_rotation, 0]) {
+              scale([1, 1, chin_side_bite_scale]) {
+                cyl(l=rear_width, orient=FRONT, r=chin_side_bite, $fn=smoothness);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
-
-
 module finished_jaw() {
-    if (smooth_edges == false) {
-        jaw();
-    } else {
-        minkowski() {
-            sphere_thickness = (wall_thickness/2)-1;
-            wall_thickness = 1;
-            jaw();
-            sphere(sphere_thickness, $fn = smooth_edges_sphere_thickness);
-        }
+  if (smooth_edges == false) {
+    jaw();
+  } else {
+    minkowski() {
+      sphere_thickness = (wall_thickness / 2) - 1;
+      wall_thickness = 1;
+      jaw();
+      sphere(sphere_thickness, $fn=smooth_edges_sphere_thickness);
     }
+  }
 }
 
 difference() {
-    union() {
-        finished_jaw();
-        // jaw holder
-        difference() {
-            // Jaw holder
-            translate([jaw_holder_location, 0, jaw_holder_height]) {
-                cyl(l = jaw_holder_length+jaw_holder_length_extra, orient=FRONT, r=jaw_holder_circ+jaw_holder_width_extra, $fn = smoothness);
-            }
+  union() {
+    finished_jaw();
+    // jaw holder
+    difference() {
+      // Jaw holder
+      translate([jaw_holder_location, 0, jaw_holder_height]) {
+        cyl(l=jaw_holder_length + jaw_holder_length_extra, orient=FRONT, r=jaw_holder_circ + jaw_holder_width_extra, $fn=smoothness);
+      }
 
-            union () {
-                // jaw holder
-                translate([jaw_holder_location, 0, jaw_holder_height]) {
-                    cyl(l = jaw_holder_length-(wall_thickness*3), orient=FRONT, r=jaw_holder_circ+jaw_holder_width_extra+1, $fn = smoothness);
-                }
-            }
+      union() {
+        // jaw holder
+        translate([jaw_holder_location, 0, jaw_holder_height]) {
+          cyl(l=jaw_holder_length - (wall_thickness * 3), orient=FRONT, r=jaw_holder_circ + jaw_holder_width_extra + 1, $fn=smoothness);
         }
+      }
     }
-    union() {
-        // Side strap cuts
-        translate([side_strap_holders_location, 0, side_strap_holders_height]) {
-            rotate([0, side_strap_rotation, 0]) {
-                scale([side_strap_cut_scale, 1, 1]) { 
-                    tube(h=side_strap_holders_width, or1=side_strap_holders_front_cut, or2=side_strap_holders_rear_cut, wall=2, $fn = smoothness);
-                }
-            }
+  }
+  union() {
+    // Side strap cuts
+    translate([side_strap_holders_location, 0, side_strap_holders_height]) {
+      rotate([0, side_strap_rotation, 0]) {
+        scale([side_strap_cut_scale, 1, 1]) {
+          tube(h=side_strap_holders_width, or1=side_strap_holders_front_cut, or2=side_strap_holders_rear_cut, wall=2, $fn=smoothness);
         }
+      }
     }
+  }
 }
