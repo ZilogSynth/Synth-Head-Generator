@@ -9,67 +9,46 @@ include <BOSL2/rounding.scad>
 
 include <Head.scad>;
 
-render_head = false; // Set to render the head too so that you can get an idea of fit, set to false to render just the jaw for use in production
+render_head = true; // Set to render the head too so that you can get an idea of fit, set to false to render just the jaw for use in production
 smoothness = 380;
 
-mount_front_location = 290;
-mount_rear_location = 380;
+mount_scale = 0.85;
 mount_thickness = 1;
-mount_scale = 0.9;
-mount_body_height = 55;
-mount_body_thickness = 2;
-mount_body_front_width = 150;
-mount_body_rear_width = 166;
-mount_body_x_location = 135;
-mount_body_z_location = -13;
+head_attachment_thickness = 4;
+head_attachment_scale = 0.96;
 
-mount_body_remove_front_width = 139;
-mount_body_remove_rear_width = 155;
+front_cut_off = 120;
+rear_cut_off = 170;
+bottom_cut_off = 257;
 
-mount_bottom_cut_off = -125;
-
-mount_top_cut_off = 150;
-
-if (render_head == true) {
-    unsmoothed();
-}
+front_top_cut_adjustment = 100;
+rear_top_cut_adjustment = 120;
+top_cut_frame_thickness = 1;
 
 difference() {
-    union() {
-        scale([mount_scale, mount_scale, mount_scale]) {
-            rect_tube(size1=[front_height, front_width], size2=[rear_height, rear_width], wall=mount_thickness, h=overall_length, rounding1=[0, front_rounding, front_rounding, 0], rounding2=[0, rear_rounding, rear_rounding, 0], orient=RIGHT, $fn=smoothness);
-        }
-        
-        difference() {
-            translate([mount_body_x_location, 0, mount_body_z_location]) {
-                prismoid(size1=[mount_body_thickness, mount_body_front_width], size2=[mount_body_thickness, mount_body_rear_width], height=mount_body_height, orient=RIGHT);
-            }
-            
-            translate([mount_body_x_location, 0, mount_body_z_location]) {
-                prismoid(size1=[mount_body_thickness, mount_body_remove_front_width], size2=[mount_body_thickness, mount_body_remove_rear_width], height=mount_body_height, orient=RIGHT);
-            }
-        }
+    scale([mount_scale, mount_scale, mount_scale]) {
+        rect_tube(size1=[front_height, front_width], size2=[rear_height, rear_width], wall=mount_thickness, h=overall_length, rounding1=[0, front_rounding, front_rounding, 0], rounding2=[0, rear_rounding, rear_rounding, 0], orient=RIGHT, $fn=smoothness);
     }
 
+    right(front_cut_off) prismoid(size1=[overall_length, overall_length], size2=[overall_length, overall_length], height=overall_length, orient=LEFT);
+    right(rear_cut_off) prismoid(size1=[overall_length, overall_length], size2=[overall_length, overall_length], height=overall_length, orient=RIGHT);
+    down(bottom_cut_off) prismoid(size1=[overall_length, overall_length], size2=[overall_length, overall_length], height=overall_length, orient=RIGHT);
 
-    union() {
-        unsmoothed();
-        cuboid([rear_height, rear_width, mount_front_location], orient=RIGHT);
-        
-        translate([mount_rear_location, 0, 0]) {
-            cuboid([rear_height, rear_width, mount_rear_location], orient=RIGHT);
+    right(front_cut_off+top_cut_frame_thickness) prismoid(size1=[overall_length, front_top_cut_adjustment], size2=[overall_length, rear_top_cut_adjustment], height=rear_cut_off-front_cut_off-(top_cut_frame_thickness+top_cut_frame_thickness), orient=RIGHT);
+}
+
+intersection() {
+    difference() {
+        scale([head_attachment_scale, head_attachment_scale, head_attachment_scale]) {
+            rect_tube(size1=[front_height, front_width], size2=[rear_height, rear_width], wall=head_attachment_thickness, h=overall_length, rounding1=[0, front_rounding, front_rounding, 0], rounding2=[0, rear_rounding, rear_rounding, 0], orient=RIGHT, $fn=smoothness);
         }
+
+        right(front_cut_off) prismoid(size1=[overall_length, overall_length], size2=[overall_length, overall_length], height=overall_length, orient=LEFT);
+        right(rear_cut_off) prismoid(size1=[overall_length, overall_length], size2=[overall_length, overall_length], height=overall_length, orient=RIGHT);
+        down(bottom_cut_off) prismoid(size1=[overall_length, overall_length], size2=[overall_length, overall_length], height=overall_length, orient=RIGHT);
         
-        translate([mount_rear_location, 0, 0]) {
-            cuboid([rear_height, rear_width, mount_rear_location], orient=RIGHT);
-        }
-        
-        translate([0, 0, mount_bottom_cut_off]) {
-            cuboid([overall_length, rear_width, rear_height]);
-        }
-        
-        translate([0, 0, mount_top_cut_off]) {
-            cuboid([overall_length, rear_width, rear_height]);
-        }
+        rect_tube(size1=[front_height, front_width], size2=[rear_height, rear_width], wall=head_attachment_thickness, h=overall_length, rounding1=[0, front_rounding, front_rounding, 0], rounding2=[0, rear_rounding, rear_rounding, 0], orient=RIGHT, $fn=smoothness);
     }
+
+    down(bottom_cut_off-head_attachment_thickness) prismoid(size1=[overall_length, overall_length], size2=[overall_length, overall_length], height=overall_length, orient=RIGHT);
 }

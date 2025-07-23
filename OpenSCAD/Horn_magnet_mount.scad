@@ -28,26 +28,25 @@ magnet_holder_y_size = 14;
 magnet_holder_z_size = 16;
 
 if (render_head == true) {
-    unsmoothed();
+  unsmoothed();
 }
 
 difference() {
-    union() {
-        translate([magnet_holder_x_location, magnet_holder_y_location, magnet_holder_z_location]) {
-            xrot(magnet_holder_x_rotation) yrot(magnet_holder_y_rotation) zrot(magnet_holder_z_rotation) 
+  union() {
+    translate([magnet_holder_x_location, magnet_holder_y_location, magnet_holder_z_location]) {
+      xrot(magnet_holder_x_rotation) yrot(magnet_holder_y_rotation) zrot(magnet_holder_z_rotation)
             difference() {
-                cuboid(size=[magnet_holder_x_size, magnet_holder_y_size, magnet_holder_z_size], rounding=5, edges=[FWD+RIGHT,FWD+LEFT], orient=RIGHT);
-                union() {
-                    up(magnet_radius+2) back(1.5) yrot(90) cyl(r=magnet_radius, height=(magnet_depth*2), anchor=CENTER, $fn = smoothness);
-                    down(magnet_radius+2) back(1.5) yrot(90) cyl(r=magnet_radius, height=(magnet_depth*2), anchor=CENTER, $fn = smoothness);
-                    fwd(magnet_radius*2) back(3) yrot(90) cyl(r=magnet_radius, height=(magnet_depth*2), anchor=CENTER, $fn = smoothness);
-                }
+              cuboid(size=[magnet_holder_x_size, magnet_holder_y_size, magnet_holder_z_size], rounding=5, edges=[FWD + RIGHT, FWD + LEFT], orient=RIGHT);
+              union() {
+                up(magnet_radius + 2) back(1.5) yrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+                down(magnet_radius + 2) back(1.5) yrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+                fwd(magnet_radius * 2) back(3) yrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+              }
             }
-        }
     }
-    
+  }
 
-    union() {
-        unsmoothed();
-    }
+  union() {
+    unsmoothed();
+  }
 }
