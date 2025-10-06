@@ -10,7 +10,7 @@ include <BOSL2/rounding.scad>
 include <Head.scad>;
 
 render_head = false; // Set to render the head too so that you can get an idea of fit
-smoothness = 380;
+smoothness = 100;
 
 magnet_holder_x_location = 350;
 magnet_holder_y_location = 78;
@@ -22,31 +22,60 @@ magnet_holder_z_rotation = 8;
 
 magnet_radius = 3.1;
 magnet_depth = 2;
+magnet_spacing = 1;
 
 magnet_holder_x_size = 18;
-magnet_holder_y_size = 14;
-magnet_holder_z_size = 16;
+magnet_holder_y_size = 8;
+magnet_holder_z_size = 40;
 
 if (render_head == true) {
   unsmoothed();
 }
 
 difference() {
-  union() {
-    translate([magnet_holder_x_location, magnet_holder_y_location, magnet_holder_z_location]) {
-      xrot(magnet_holder_x_rotation) yrot(magnet_holder_y_rotation) zrot(magnet_holder_z_rotation)
-            difference() {
-              cuboid(size=[magnet_holder_x_size, magnet_holder_y_size, magnet_holder_z_size], rounding=5, edges=[FWD + RIGHT, FWD + LEFT], orient=RIGHT);
-              union() {
-                up(magnet_radius + 2) back(1.5) yrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
-                down(magnet_radius + 2) back(1.5) yrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
-                fwd(magnet_radius * 2) back(3) yrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
-              }
-            }
+    difference() {
+        cuboid(size=[magnet_holder_x_size, magnet_holder_y_size, magnet_holder_z_size], chamfer=3, edges=[FWD], orient=RIGHT, $fn = smoothness);
+        
+        left(magnet_holder_z_size/4) {
+            left(magnet_radius + magnet_spacing) up(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+            right(magnet_radius + magnet_spacing) up(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+            left(magnet_radius + magnet_spacing) down(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+            right(magnet_radius + magnet_spacing) down(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+        }
     }
-  }
-
-  union() {
-    unsmoothed();
-  }
+    
+    union() {
+        back(magnet_holder_y_size/4) left(magnet_holder_z_size/4) {
+            cuboid(size=[magnet_holder_x_size, magnet_holder_y_size/2+0.5, magnet_holder_z_size/2+5], orient=RIGHT);
+        }
+        back(magnet_holder_y_size/4) {
+            cuboid(size=[0.5+magnet_holder_x_size/2, 0.5+magnet_holder_y_size/4, 5+magnet_holder_z_size/2], orient=RIGHT);
+        }
+    }
 }
+
+back(20) intersection() {
+    difference() {
+        cuboid(size=[magnet_holder_x_size, magnet_holder_y_size, magnet_holder_z_size], rounding=5, edges=[FWD + RIGHT, FWD + LEFT], orient=RIGHT);
+
+        left(magnet_holder_z_size/4) {
+            left(magnet_radius + magnet_spacing) up(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+            right(magnet_radius + magnet_spacing) up(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+            left(magnet_radius + magnet_spacing) down(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+            right(magnet_radius + magnet_spacing) down(magnet_radius + magnet_spacing) xrot(90) cyl(r=magnet_radius, height=(magnet_depth * 2), anchor=CENTER, $fn=smoothness);
+        }
+    }
+    
+    union() {
+        back(magnet_holder_y_size/4) left(magnet_holder_z_size/4) {
+            cuboid(size=[magnet_holder_x_size, magnet_holder_y_size/2, magnet_holder_z_size/2], orient=RIGHT);
+        }
+        back(magnet_holder_y_size/4) {
+            cuboid(size=[magnet_holder_x_size/2, magnet_holder_y_size/4, magnet_holder_z_size/2], orient=RIGHT);
+        }
+    }
+}
+
+
+        
+ 
